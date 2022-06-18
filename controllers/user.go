@@ -7,6 +7,11 @@ import (
 	"github.com/darahayes/go-boom"
 	"sample/models"
 )
+ 
+type JsonResponseCollection struct {
+    Data    []*models.User `json:"data"`
+    Message string 		`json:"message"`
+}
 
 type JsonResponse struct {
     Data    models.User `json:"data"`
@@ -21,9 +26,9 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// var response = JsonResponse{Message: "success", Data: users}
+	var response = JsonResponseCollection{Message: "success", Data: users}
 
-    json.NewEncoder(w).Encode(users)
+    json.NewEncoder(w).Encode(response)
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {

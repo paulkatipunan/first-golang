@@ -2,14 +2,16 @@ package main
 
 import (
 	"log"
+	"github.com/joho/godotenv"
 	"sample/routes"
 	"net/http"
-	"sample/config"
 	"fmt"
+	"os"
 )
 
 func main() {
-	port := config.GetEnv("PORT")
+	initEnv()
+	port := os.Getenv("PORT")
 
 	fmt.Println(fmt.Sprintf("Application started on port :%v", port))
 
@@ -17,4 +19,12 @@ func main() {
 
 	http.Handle("/", routes)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port) , nil))
+}
+
+func initEnv() {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+	  log.Fatalf("Error loading .env file")
+	}
 }
